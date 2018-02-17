@@ -24,6 +24,7 @@ public class ImageLaunch extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        System.out.print("Baby");
         stage.show();
     }
 
