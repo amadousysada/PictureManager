@@ -128,7 +128,7 @@
    <top>
       <BorderPane prefHeight="116.0" prefWidth="828.0" BorderPane.alignment="CENTER">
          <left>
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="55.0" prefWidth="193.0" text="dossieR" translateX="17.0" BorderPane.alignment="CENTER">
+            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="55.0" prefWidth="193.0" text="dossier" translateX="17.0" BorderPane.alignment="CENTER">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                      <image>
