@@ -21,7 +21,6 @@ public class ImageLaunch extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         System.out.println("salu DAKOR");
-        
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
