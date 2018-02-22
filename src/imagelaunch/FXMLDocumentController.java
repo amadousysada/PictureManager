@@ -8,17 +8,23 @@ package imagelaunch;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,9 +37,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 
 /**
@@ -42,21 +52,7 @@ import javax.imageio.ImageIO;
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML
-    private void openParametre(ActionEvent event)
-    {
-        
-        try {
-            FXMLLoader fxmlLoader =  new FXMLLoader(getClass().getResource("Parametre.fxml"));
-            Parent root1 = (Parent)fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-            
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
     @FXML
     public ChoiceBox<String> choicebox;
     
@@ -81,6 +77,34 @@ public class FXMLDocumentController implements Initializable {
     private ImageView imageSelected;
     @FXML
     private HBox ImageEditOption;
+    @FXML
+    private ImageView imageDiapoId;
+    
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        
+       // choicebox.getItems().add("Français(France)");
+       // choicebox.getItems().add("Anglais(Grande Bretagne)");
+       // choicebox.getItems().add("Arabe()");
+        //choicebox.setValue("Français(France)");
+    }    
+    
+    @FXML
+    private void openParametre(ActionEvent event){
+        
+        try {
+            FXMLLoader fxmlLoader =  new FXMLLoader(getClass().getResource("Parametre.fxml"));
+            Parent root1 = (Parent)fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     @FXML
     private void openDirectory(ActionEvent event){
@@ -134,10 +158,45 @@ public class FXMLDocumentController implements Initializable {
         }
     
     }
-    static final String[] EXTENSIONS = new String[]{
-        "gif", "png", "bmp", "jpg" // and other formats you need
-    };
-    // filter to identify images based on their extensions
+    
+    @FXML
+    private void diaporama(MouseEvent event){
+        try {
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("Diaporama.fxml"));
+            Stage stage=new Stage();
+            Parent root = (Parent)loader.load();
+            
+            stage.setScene(new Scene(root));
+            Diaporama ctrldiapo=loader.<Diaporama>getController();
+            ctrldiapo.setSelectedDirectory(selectedDirectory);
+            ctrldiapo.setListeImages(listeImages);  
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent e) {
+//                        for( ScheduledExecutorService sched : activeExecutorServices ){
+//                            sched.shutdown();
+//                        }c
+                        ctrldiapo.setExit(true);
+                        
+                    }});
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    @FXML
+    private void forward(MouseEvent event){
+        listeImages.getSelectionModel().selectNext();
+    }
+    @FXML
+    private void previous(MouseEvent event){
+        listeImages.getSelectionModel().selectPrevious();
+    }
+    
+    static final String[] EXTENSIONS = new String[]{"gif", "png", "bmp", "jpg"};
+    
     static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
         @Override
@@ -160,11 +219,7 @@ public class FXMLDocumentController implements Initializable {
         } 
         return null; 
     }
-    /**
-     * Afficher la taille
-     * @param f
-     * @return taille au format xx Ko ou xx Mo
-     */
+    
     public static String getFormatedSize(File f) {
         int size = (int) (f.length() / 1024) + 1;
         if (size > 1024) {
@@ -174,20 +229,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-       // choicebox.getItems().add("Français(France)");
-       // choicebox.getItems().add("Anglais(Grande Bretagne)");
-       // choicebox.getItems().add("Arabe()");
-        //choicebox.setValue("Français(France)");
-    }    
     
 }

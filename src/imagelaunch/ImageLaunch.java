@@ -6,24 +6,31 @@
 package imagelaunch;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
- * @author gaby
+ * @author gaby & SY
  */
 public class ImageLaunch extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        System.out.println("salu DAKOR");
-        
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));        
         Scene scene = new Scene(root);
-        
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+       @Override
+       public void handle(WindowEvent e) {
+          Platform.exit();
+          System.exit(0);
+       }
+    });
         stage.setScene(scene);
         stage.show();
     }
