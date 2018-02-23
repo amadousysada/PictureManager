@@ -29,7 +29,8 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <ChoiceBox id="choicebox" layoutX="14.0" layoutY="23.0" prefHeight="25.0" prefWidth="135.0" />
+                        <ChoiceBox id="choicebox" fx:id="choiceButton" layoutX="14.0" layoutY="23.0" prefHeight="25.0" prefWidth="135.0" />
+                        <Label layoutX="14.0" layoutY="77.0" text="Vous devez redémarrer l'application pour prendre en compte les changements" />
                      </children>
                   </AnchorPane>
             </content>

@@ -19,13 +19,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
  *
- * @author gaby
+ * @author sy&gaby
  */
 public class Parametres implements Initializable {
     
@@ -36,6 +37,8 @@ public class Parametres implements Initializable {
      @FXML private Button Buttonok;
      
      @FXML private Button ButtonAnnuler;
+     
+     @FXML private ChoiceBox choiceButton;
      
       
  
@@ -60,7 +63,12 @@ public class Parametres implements Initializable {
         
        String s   =  FXMLDocumentController.getVALUE();
      
+       //Initilaiser répertoire
        repertory.setText(s);
+       
+       //Initialiser les langues
+       choiceButton.getItems().addAll("Français", "English", "العربية");
+       choiceButton.getSelectionModel().select("Français");
        
     }
     
