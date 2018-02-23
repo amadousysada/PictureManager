@@ -156,10 +156,10 @@ public class FXMLDocumentController implements Initializable {
         }else{
             if (selectedDirectory.isDirectory()) { // make sure it's a directory
                 folderMessage.setVisible(false);
+                imageSelected.setImage(null);
                 for (final File f : selectedDirectory.listFiles(IMAGE_FILTER)) {
-                    BufferedImage img = null;
                     images.add(f.getName());
-                    imageSelected.setImage(null);
+                    
                 }
                 
                 listeImages.setItems(images);

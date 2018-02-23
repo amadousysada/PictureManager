@@ -74,7 +74,7 @@ public class Diaporama implements Initializable {
                         imageDiapoId.setImage(new Image(new FileInputStream(selectedDirectory.getAbsolutePath()+"/"+s),388,406,false,false));
                         if (count >= listeImages.getItems().size()) {
                             //Thread.currentThread().interrupt();
-                            count = 0;
+                            this.cancel();
                         }
                         if (exit ) {
                             this.cancel();
