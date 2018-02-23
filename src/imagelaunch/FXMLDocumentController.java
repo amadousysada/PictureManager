@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,7 +53,12 @@ import javax.imageio.ImageIO;
  */
 public class FXMLDocumentController implements Initializable {
 
-
+    
+    @FXML
+    private Label output;
+    private ResourceBundle bundle;
+    private Locale locale ;
+    
     
     @FXML
     public ChoiceBox<String> choicebox;
@@ -115,6 +121,25 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+      @FXML
+    private void btnFR(ActionEvent event) {
+        loadLang("fr");
+    }
+     @FXML
+    private void btnEN(ActionEvent event) {
+        loadLang("en");
+    }
+     @FXML
+    private void btnAR(ActionEvent event) {
+       loadLang("ar");
+    }
+    private void loadLang(String lang)
+    {
+        locale= new Locale(lang);
+        bundle = ResourceBundle.getBundle("language.lang", locale);
+        output.setText(bundle.getString("label"));
     }
     
     @FXML
