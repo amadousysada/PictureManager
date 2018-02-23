@@ -17,8 +17,8 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="251.0" prefWidth="510.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="28.0" layoutY="86.0" text="Formats supportés :" />
-                        <Label layoutX="137.0" layoutY="86.0" text="PNG , JPEG" />
+                        <Label layoutX="28.0" layoutY="86.0" text="Formats supportés  :" />
+                        <Label layoutX="137.0" layoutY="86.0" text="PNG    ,   JPEG" />
                         <Label layoutX="23.0" layoutY="41.0" text="_ Dossier par défaut _" />
                         <TextField fx:id="repertory" layoutX="148.0" layoutY="37.0" prefHeight="25.0" prefWidth="275.0" />
                      </children>
@@ -36,7 +36,7 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="192.0" layoutY="277.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="OK" />
-      <Button layoutX="274.0" layoutY="277.0" mnemonicParsing="false" text="Annuler" />
+      <Button fx:id="Buttonok" layoutX="192.0" layoutY="277.0" mnemonicParsing="false" onAction="#okButton" prefHeight="25.0" prefWidth="66.0" text="OK" />
+      <Button fx:id="ButtonAnnuler" layoutX="274.0" layoutY="277.0" mnemonicParsing="false" onAction="#annulerButton" text="Annuler" />
    </children>
 </AnchorPane>
