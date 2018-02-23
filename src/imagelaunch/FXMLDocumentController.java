@@ -90,11 +90,6 @@ public class FXMLDocumentController implements Initializable {
     private static String repertoire;
     
     
-    public static String getVALUE() {
-
-        return  repertoire;
-    }
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -265,6 +260,11 @@ public class FXMLDocumentController implements Initializable {
         } else {
             return size + " ko";
         }
+    }
+    
+    public static String getVALUE() {
+
+        return  repertoire;
     }
     
     
