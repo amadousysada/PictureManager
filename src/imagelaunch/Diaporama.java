@@ -35,6 +35,7 @@ public class Diaporama implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
          //To change body of generated methods, choose Tools | Templates.
          initDiaporama();
+          System.out.println("Hello");
     }
 
     public Diaporama() {

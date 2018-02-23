@@ -51,7 +51,8 @@ import javax.imageio.ImageIO;
  * @author gaby & SY
  */
 public class FXMLDocumentController implements Initializable {
-    
+
+
     
     @FXML
     public ChoiceBox<String> choicebox;
@@ -80,25 +81,33 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ImageView imageDiapoId;
     
+    private static String repertoire;
+    
+    
+    public static String getVALUE() {
+
+        return  repertoire;
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-       // choicebox.getItems().add("Français(France)");
-       // choicebox.getItems().add("Anglais(Grande Bretagne)");
-       // choicebox.getItems().add("Arabe()");
-        //choicebox.setValue("Français(France)");
     }    
     
+  
     @FXML
     private void openParametre(ActionEvent event){
         
         try {
-            FXMLLoader fxmlLoader =  new FXMLLoader(getClass().getResource("Parametre.fxml"));
+            FXMLLoader fxmlLoader =  new FXMLLoader(getClass().getResource("Parametres.fxml"));
+           
+             Stage stage = new Stage();
+             
             Parent root1 = (Parent)fxmlLoader.load();
-            Stage stage = new Stage();
+ 
+            
             stage.setScene(new Scene(root1));
+            
             stage.show();
             
         } catch (IOException ex) {
@@ -146,6 +155,8 @@ public class FXMLDocumentController implements Initializable {
                                 imageSelected.setImage(null);
                             }
                             //System.out.println(selectedDirectory.getAbsolutePath()+"/"+f.getName());
+                            
+                            repertoire = selectedDirectory.getAbsolutePath();
                             
                         } catch (IOException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
