@@ -35,12 +35,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import static javafx.scene.paint.Color.WHITE;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -58,16 +61,43 @@ public class FXMLDocumentController implements Initializable {
     private Label output;
     private ResourceBundle bundle;
     private Locale locale ;
-    
-    
+    private static String lang;
+    @FXML
+    private Text rechercheLbl;
+    @FXML
+    private RadioButton motcle_rech;
+    @FXML
+    private RadioButton  nom_rech;
+    @FXML
+    private Label  img_nom;
+    @FXML
+    private Label  motcle_img;
+    @FXML
+    private Label  type_img;
+    @FXML
+    private Label  taille_img;
+    @FXML
+    private Button buttonDirectoryChooser;
+    @FXML
+    private Button lancerRech;
+    @FXML
+    private Button save_keyw;
+    @FXML
+    private Button setting;
+    @FXML
+    private Label  folderMessage;
+    @FXML
+    private Button FRAction;
+    @FXML
+    private Button ENAction;
+    @FXML
+    private Button ARAction;
     @FXML
     public ChoiceBox<String> choicebox;
     
     File selectedDirectory=null;
     @FXML
     private Label label;
-    @FXML
-    private Button buttonDirectoryChooser;
     @FXML
     private ListView listeImages;
     @FXML
@@ -76,8 +106,6 @@ public class FXMLDocumentController implements Initializable {
     private TextField motCle;
     @FXML
     private Label typeImg;
-    @FXML
-    private Label folderMessage;
     @FXML
     private Label tailleImg;
     @FXML
@@ -93,6 +121,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+         setLang("fr");
     }    
     
   
@@ -101,16 +130,11 @@ public class FXMLDocumentController implements Initializable {
         
         try {
             FXMLLoader fxmlLoader =  new FXMLLoader(getClass().getResource("Parametres.fxml"));
-           
-             Stage stage = new Stage();
-             
+            Stage stage = new Stage();
             Parent root1 = (Parent)fxmlLoader.load();
- 
-            
             stage.setScene(new Scene(root1));
-            
+            //Parametres ctrlparam = fxmlLoader.<Parametres>getController();
             stage.resizableProperty().set(false);
-            
             stage.show();
             
         } catch (IOException ex) {
@@ -120,22 +144,60 @@ public class FXMLDocumentController implements Initializable {
     
       @FXML
     private void btnFR(ActionEvent event) {
+        
+        setLang("fr");
         loadLang("fr");
+        
+        FRAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+        
+        ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+        
+        ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
      @FXML
     private void btnEN(ActionEvent event) {
+        setLang("en");
         loadLang("en");
+        
+        ENAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+        
+        FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+        
+        ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+
     }
      @FXML
     private void btnAR(ActionEvent event) {
+       setLang("ar");
        loadLang("ar");
+       
+        ARAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+        
+        ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+        
+        FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
     private void loadLang(String lang)
     {
         locale= new Locale(lang);
         bundle = ResourceBundle.getBundle("language.lang", locale);
-        output.setText(bundle.getString("label"));
-    }
+        buttonDirectoryChooser.setText(bundle.getString("dossier_eng"));
+        rechercheLbl.setText(bundle.getString("rech_lbl"));
+        nom_rech.setText(bundle.getString("nom_lbl"));
+        motcle_rech.setText(bundle.getString("motcle_lbl"));
+        img_nom.setText(bundle.getString("nom_lbl"));
+        motcle_img.setText(bundle.getString("motcle_lbl"));
+        type_img.setText(bundle.getString("type_lbl"));
+        taille_img.setText(bundle.getString("taille_lbl"));
+        save_keyw.setText(bundle.getString("motcle_eng"));
+        setting.setText(bundle.getString("param_eng"));
+        folderMessage.setText(bundle.getString("folder_mess"));
+        lancerRech.setText(bundle.getString("go_eng"));
+        
+        //Parametres par = new Parametres();
+        //par.setParametresLanguage();
+                
+        }
     
     @FXML
     private void openDirectory(ActionEvent event){
@@ -260,6 +322,14 @@ public class FXMLDocumentController implements Initializable {
         } else {
             return size + " ko";
         }
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public static  String getLang() {
+        return lang;
     }
     
     public static String getVALUE() {

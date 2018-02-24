@@ -10,22 +10,22 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="332.0" prefWidth="600.0" style="-fx-background-color: #E1D5E7;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imagelaunch.Parametres">
    <children>
-      <Label layoutX="274.0" prefHeight="38.0" prefWidth="182.0" text="Options" />
+      <Label fx:id="optionsAction" layoutX="274.0" prefHeight="38.0" prefWidth="182.0" text="Options" />
       <TabPane fx:id="mytab" layoutX="56.0" layoutY="53.0" prefHeight="200.0" prefWidth="510.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="mytab_general" text="Général">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="251.0" prefWidth="510.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="28.0" layoutY="86.0" text="Formats supportés  :" />
+                        <Label fx:id="format_lbl" layoutX="28.0" layoutY="86.0" text="Formats supportés  :" />
                         <Label layoutX="137.0" layoutY="86.0" text="PNG    ,   JPEG" />
-                        <Label layoutX="23.0" layoutY="41.0" text="_ Dossier par défaut _" />
+                        <Label fx:id="dossier_lbl" layoutX="23.0" layoutY="41.0" text="_ Dossier par défaut _" />
                         <TextField fx:id="repertory" layoutX="148.0" layoutY="37.0" prefHeight="25.0" prefWidth="275.0" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Langues">
+          <Tab fx:id="mytablang" text="Langues">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>

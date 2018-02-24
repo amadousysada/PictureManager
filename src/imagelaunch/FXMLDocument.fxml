@@ -26,16 +26,16 @@
          <children>
             <HBox prefHeight="35.0" prefWidth="243.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" wrappingWidth="80.13671875" />
-                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="190.0" text="nom" />
-                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="198.0" text="mot clé" />
+                  <Text fx:id="rechercheLbl" strokeType="OUTSIDE" strokeWidth="0.0" text="Recherche" wrappingWidth="80.13671875" />
+                  <RadioButton fx:id="nom_rech" mnemonicParsing="false" prefHeight="17.0" prefWidth="190.0" text="nom" />
+                  <RadioButton fx:id="motcle_rech" mnemonicParsing="false" prefHeight="17.0" prefWidth="198.0" text="mot clé" />
                   
                </children>
             </HBox>
             <HBox prefHeight="43.0" prefWidth="243.0">
                <children>
                   <TextField prefHeight="25.0" prefWidth="211.0" />
-                  <Button ellipsisString="Go" mnemonicParsing="false" text="Go" />
+                  <Button fx:id="lancerRech" ellipsisString="Go" mnemonicParsing="false" text="Ok" />
                </children>
             </HBox>
             <GridPane prefHeight="408.0" prefWidth="243.0" style="-fx-border-color: #BFBFBF; -fx-border-radius: 2;">
@@ -47,7 +47,7 @@
                </rowConstraints>
                <children>
                   <ListView fx:id="listeImages" prefHeight="409.0" prefWidth="243.0" style="-fx-background-color: #E1D5E7;" />
-                  <Label fx:id="folderMessage" prefHeight="184.0" prefWidth="241.0" text="    VEILLEZ CHOISIR UN DOSSIER" textFill="#0f0f0f">
+                  <Label fx:id="folderMessage" prefHeight="184.0" prefWidth="241.0" text="    VEUILLEZ CHOISIR UN DOSSIER" textFill="#0f0f0f">
                      <font>
                         <Font name="System Bold Italic" size="11.0" />
                      </font>
@@ -134,15 +134,12 @@
          <right>
             <HBox prefHeight="37.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#btnFR" style="-fx-background-color: #8C98A0;" text="FR" textFill="#f2ecec" translateY="45.0" />
-                  <Button mnemonicParsing="false" onAction="#btnEN" text="EN" translateY="45.0" />
-                  <Button mnemonicParsing="false" onAction="#btnAR" text="AR" translateY="45.0" />
+                  <Button fx:id="FRAction" mnemonicParsing="false" onAction="#btnFR" style="-fx-background-color: #8C98A0;" text="FR" textFill="#f0ebeb" translateY="45.0" />
+                  <Button fx:id="ENAction" mnemonicParsing="false" onAction="#btnEN" text="EN" translateY="45.0" />
+                  <Button fx:id="ARAction" mnemonicParsing="false" onAction="#btnAR" text="AR" translateY="45.0" />
                </children>
             </HBox>
          </right>
-         <center>
-            <Label fx:id="output" BorderPane.alignment="CENTER" />
-         </center>
       </BorderPane>
    </top>
    <right>
@@ -164,7 +161,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #8C98A0;" text="Enregistrer" textFill="#eeeded" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Button fx:id="save_keyw" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #8C98A0;" text="Enregistrer" textFill="#eeeded" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
@@ -193,22 +190,22 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label text="Nom" GridPane.rowIndex="1">
+                  <Label fx:id="img_nom" text="Nom" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" top="-30.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Mot-clé" GridPane.rowIndex="2">
+                  <Label fx:id="motcle_img" text="Mot-clé" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" top="-10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Type" GridPane.rowIndex="3">
+                  <Label fx:id="type_img" text="Type" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Taille" GridPane.rowIndex="4">
+                  <Label fx:id="taille_img" text="Taille" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
@@ -220,7 +217,7 @@
             </GridPane>
          </center>
          <bottom>
-            <Button ellipsisString="" mnemonicParsing="false" onAction="#openParametre" prefHeight="96.0" prefWidth="178.0" style="-fx-background-color: #8C98A0;" text="Parametre" textFill="#e8dfdf" translateY="-150.0" BorderPane.alignment="CENTER">
+            <Button fx:id="setting" ellipsisString="" mnemonicParsing="false" onAction="#openParametre" prefHeight="96.0" prefWidth="178.0" style="-fx-background-color: #8C98A0;" text="Parametres" textFill="#e8dfdf" translateY="-150.0" BorderPane.alignment="CENTER">
                <graphic>
                   <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" translateX="3.0">
                      <image>

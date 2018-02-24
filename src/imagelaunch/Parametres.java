@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,8 +21,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -38,7 +42,22 @@ public class Parametres implements Initializable {
      
      @FXML private Button ButtonAnnuler;
      
+     @FXML public Label  optionsAction;
+     
+     @FXML public Label  dossier_lbl;
+      
+     @FXML public Label  format_lbl;
+     
+     @FXML public Tab mytab_general;
+     
+     @FXML public Tab mytablang;
+ 
+     
      @FXML private ChoiceBox choiceButton;
+     private ResourceBundle bundle;
+     private Locale locale ;
+     
+     private static String lang_;
      
       
  
@@ -47,12 +66,13 @@ public class Parametres implements Initializable {
   
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-         //To change body of generated methods, choose Tools | Templates.
+       //To change body of generated methods, choose Tools | Templates.
         initDefaultValues();
        
     }
 
     public Parametres() {
+         
     }
 
     public void setRepertory(File selectedDirectory) {
@@ -65,13 +85,36 @@ public class Parametres implements Initializable {
      
        //Initilaiser répertoire
        repertory.setText(s);
+      // System.out.println("La langue par défaut est "+lang_);
+       //Initialiser la langue 
+       this.lang_ =  FXMLDocumentController.getLang();
+     
        
+       //System.out.println("langue par défaut :"+lang_);
+       
+       loadLang(lang_);
+        
        //Initialiser les langues
        choiceButton.getItems().addAll("Français", "English", "العربية");
        choiceButton.getSelectionModel().select("Français");
        
     }
-    
+       private void loadLang(String lang)
+    {
+        locale= new Locale(lang);
+        bundle = ResourceBundle.getBundle("language.lang", locale);
+        
+        optionsAction.setText(bundle.getString("option_lbl"));
+        
+        dossier_lbl.setText(bundle.getString("dossier_lbl"));
+        
+        format_lbl.setText(bundle.getString("format_lbl"));
+        
+        mytab_general.setText(bundle.getString("general_en"));
+        
+        mytablang.setText(bundle.getString("langue_en"));
+                
+        }
     
     @FXML
     private void okButton(ActionEvent event){
@@ -91,8 +134,9 @@ public class Parametres implements Initializable {
     }
 
 
-   
     
+
+  
     
     
     
