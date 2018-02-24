@@ -5,13 +5,17 @@
  */
 package imagelaunch;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -49,6 +53,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -229,16 +235,15 @@ public class FXMLDocumentController implements Initializable {
                                 BufferedImage img = ImageIO.read(f);
                                 imageSelected.setImage(new Image(new FileInputStream(selectedDirectory.getAbsolutePath()+"/"+f.getName()),388,406,false,false));
                                 nomImage.setText(f.getName());
-                                motCle.setText("");
                                 typeImg.setText(getExtension(f));
                                 tailleImg.setText(getFormatedSize(f));
                                 ImageEditOption.setVisible(true);
+                                motCle.setText(getCle(selectedDirectory.getAbsolutePath()+"/"+f.getName()));
                             }
                             else{
                                 ImageEditOption.setVisible(false);
                                 imageSelected.setImage(null);
                             }
-                            //System.out.println(selectedDirectory.getAbsolutePath()+"/"+f.getName());
                             
                             repertoire = selectedDirectory.getAbsolutePath();
                             
@@ -290,6 +295,67 @@ public class FXMLDocumentController implements Initializable {
         listeImages.getSelectionModel().selectPrevious();
     }
     
+    @FXML
+    private void saveKey(ActionEvent event){
+        if(!nomImage.equals("")&& !motCle.equals("")){
+            try{
+                ObjectMapper mapper = new ObjectMapper();
+                JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+                Object s=obj.get(motCle.getText());
+                if(s==null){
+                    String nom=(String) (selectedDirectory+"/"+nomImage.getText());
+                    String key=getCle(nom);
+                    ArrayList list = new ArrayList();
+                    if(key!=null){
+                        Object orem=obj.get(key);
+                        obj.remove(key);
+                        s=removePic((ArrayList) orem,nom.substring(0, nom.length()-4));
+                        if(!((ArrayList)s).isEmpty()){
+                            obj.put(key, s);
+                        }
+                        
+                    }
+                    list.add((selectedDirectory+"/"+nomImage.getText()).subSequence(0, (selectedDirectory+"/"+nomImage.getText()).length()-4));
+                    obj.put(motCle.getText(), list);
+                }
+                else{
+                    String nom=(selectedDirectory+"/"+nomImage.getText());
+                    String key=getCle((String) nom);
+                    if(key!=null){
+                        if(!key.equals(motCle.getText())){
+                            Object orem=obj.get(key);
+                            obj.remove(key);
+                            orem=removePic((ArrayList) orem,nom.substring(0, nom.length()-4));
+                            if(!((ArrayList)orem).isEmpty()){
+                                obj.put(key, orem);
+                            }
+                             
+                        }
+                    }
+                    ArrayList list = new ArrayList();
+                    list=(ArrayList) s;
+                    list.add((selectedDirectory+"/"+nomImage.getText()).subSequence(0, (selectedDirectory+"/"+nomImage.getText()).length()-4));
+                    obj.put(motCle.getText(), list);
+                }
+                
+                
+                FileWriter file = new FileWriter("src/imagelaunch/motscles.json");
+                file.write(obj.toJSONString());
+                file.flush();
+                
+            } 
+            catch(IOException e){}
+            
+            
+            
+        }
+            
+            
+            
+    }
+        
+    
+    
     static final String[] EXTENSIONS = new String[]{"gif", "png", "bmp", "jpg"};
     
     static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
@@ -335,6 +401,47 @@ public class FXMLDocumentController implements Initializable {
     public static String getVALUE() {
 
         return  repertoire;
+    }
+    
+    public static String getCle(String s) {
+        String resultat=null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+          
+            Object o=obj.keySet();
+            
+            for(Object i : obj.keySet().toArray()){
+                for(int j=0;j<((ArrayList)obj.get(i)).size();j++){
+                    ArrayList t=(ArrayList)obj.get(i);
+                    if(t.get(j).equals(s.subSequence(0, s.length()-4))){
+                        resultat=i.toString();
+                        break;
+                    }
+                    
+                }
+            }
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return  resultat;
+    }
+    
+    public static ArrayList removePic(ArrayList l,String s) {
+        ArrayList li=null;
+        for(int i=0;i<l.size();i++){
+            
+            if(l.get(i).equals(s)){
+                li=l;
+                li.remove(i);
+                System.out.println("resultat remove function :"+li);
+                break;
+            }
+                    
+        }
+        return  li;
     }
     
     

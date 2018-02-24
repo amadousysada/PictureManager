@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -17,7 +23,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="872.0" style="-fx-background-color: #E1D5E7;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imagelaunch.FXMLDocumentController">
+<BorderPane fx:id="borderPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="872.0" style="-fx-background-color: #E1D5E7;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imagelaunch.FXMLDocumentController">
    <left>
       <VBox prefHeight="112.0" prefWidth="243.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -161,7 +167,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="save_keyw" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #8C98A0;" text="Enregistrer" textFill="#eeeded" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Button fx:id="save_keyw" mnemonicParsing="false" onAction="#saveKey" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #8C98A0;" text="Enregistrer" textFill="#eeeded" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
@@ -174,7 +180,7 @@
                   <TextField fx:id="motCle" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Label fx:id="typeImg" text="Label">
+                        <Label fx:id="typeImg">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
@@ -183,7 +189,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <Label fx:id="tailleImg" text="Label">
+                        <Label fx:id="tailleImg">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
