@@ -59,15 +59,19 @@ public class Parametres implements Initializable {
      
      private static String lang_;
      
-      
+     private  String selectedlang_;
+     
+      //Initilaiser la langue par défaut à fr
+      private static String languest_="fr";
  
-
+      private String lg;
   
   
     @Override
     public void initialize(URL location, ResourceBundle resources) {
        //To change body of generated methods, choose Tools | Templates.
         initDefaultValues();
+        
        
     }
 
@@ -81,13 +85,31 @@ public class Parametres implements Initializable {
 
     private void initDefaultValues() {
         
+      
+       
        String s   =  FXMLDocumentController.getVALUE();
      
        //Initilaiser répertoire
        repertory.setText(s);
       // System.out.println("La langue par défaut est "+lang_);
+      
+      //selectedlang_ =  (String) choiceButton.getSelectionModel().getSelectedItem();
+      
        //Initialiser la langue 
        this.lang_ =  FXMLDocumentController.getLang();
+       
+       if(lang_.equals("fr"))
+       {
+           lg="Français";
+       }
+       else if(lang_.equals("en"))
+       {
+           lg="English"; 
+       }   
+       else
+       {
+            lg="العربية";
+       }   
      
        
        //System.out.println("langue par défaut :"+lang_);
@@ -96,7 +118,7 @@ public class Parametres implements Initializable {
         
        //Initialiser les langues
        choiceButton.getItems().addAll("Français", "English", "العربية");
-       choiceButton.getSelectionModel().select("Français");
+       choiceButton.getSelectionModel().select(lg);
        
     }
        private void loadLang(String lang)
@@ -113,29 +135,66 @@ public class Parametres implements Initializable {
         mytab_general.setText(bundle.getString("general_en"));
         
         mytablang.setText(bundle.getString("langue_en"));
+        
+        Buttonok.setText(bundle.getString("ok_en"));
+        
+        ButtonAnnuler.setText(bundle.getString("annuler_en"));
                 
         }
     
     @FXML
     private void okButton(ActionEvent event){
           
-    Stage stage = (Stage) ButtonAnnuler.getScene().getWindow();
- 
-    stage.close(); 
+    if(choiceButton.getSelectionModel().getSelectedItem()!=selectedlang_)
+    {
+        String valuelang =  (String) choiceButton.getSelectionModel().getSelectedItem();
         
+
+         
+        switch(valuelang) 
+        {
+            case  "Français":
+                  //System.out.println("FR");
+                  loadLang("fr");
+                  languest_="fr";
+                  lg="Français";
+                  break;
+             case  "English":
+                  //System.out.println("EN"); 
+                 loadLang("en");
+                 languest_="en";
+                 //FXMLDocumentController c = new FXMLDocumentController("");
+                 lg="English";
+                 break; 
+             case  "العربية":
+                 // System.out.println("AR");
+                 loadLang("ar");
+                 languest_="ar";
+                 choiceButton.getSelectionModel().select("العربية");
+                 lg="العربية";
+                 break; 
+        }
+               
+    }
+ 
+      Stage stage = (Stage) Buttonok.getScene().getWindow();
+ 
+      stage.hide();
+  
     }
     
      @FXML
     private void annulerButton(ActionEvent event){
        
-    Stage stage = (Stage) Buttonok.getScene().getWindow();
+    Stage stage = (Stage) ButtonAnnuler.getScene().getWindow();
  
     stage.close();
     }
 
-
     
-
+ public static String getLangParam(String lang) {
+        return languest_;
+    }
   
     
     

@@ -35,6 +35,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -122,6 +124,7 @@ public class FXMLDocumentController implements Initializable {
     private ImageView imageDiapoId;
     
     private static String repertoire;
+
     
     
     @Override
@@ -129,6 +132,7 @@ public class FXMLDocumentController implements Initializable {
         // TODO
          setLang("fr");
     }    
+    
     
   
     @FXML
@@ -143,9 +147,55 @@ public class FXMLDocumentController implements Initializable {
             stage.resizableProperty().set(false);
             stage.show();
             
+            stage.setOnHiding((WindowEvent event1) -> {
+            loadLang(Parametres.getLangParam(lang));   
+            Alert alert = new Alert(AlertType.INFORMATION);
+            if(Parametres.getLangParam(lang).equals("fr"))
+            {
+            alert.setTitle("Information");
+            alert.setHeaderText("Vous avez choisi les paramètres de langue par défaut");
+            alert.setContentText("Elles prennent effet dès maintenant!");
+            setLang("fr");
+             FRAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+        
+             ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+        
+             ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+            }
+            else if(Parametres.getLangParam(lang).equals("en"))
+            {
+            alert.setTitle("Information");
+            alert.setContentText("Your changement take effect right now");
+             setLang("en"); 
+             ENAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+        
+             FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+        
+             ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+            }
+              else if(Parametres.getLangParam(lang).equals("ar"))
+            {
+            alert.setTitle("معلومات");
+            alert.setContentText("إلس بريننت إفيت ديس مينتينانت!");
+            setLang("ar");
+            ARAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+        
+            ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+        
+            FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+            } 
+            else
+              {
+                  
+              }
+
+            alert.showAndWait();
+           });
+            
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
       @FXML
@@ -161,7 +211,7 @@ public class FXMLDocumentController implements Initializable {
         ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
      @FXML
-    private void btnEN(ActionEvent event) {
+    private  void btnEN(ActionEvent event) {
         setLang("en");
         loadLang("en");
         
@@ -183,7 +233,7 @@ public class FXMLDocumentController implements Initializable {
         
         FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
-    private void loadLang(String lang)
+    public  void loadLang(String lang)
     {
         locale= new Locale(lang);
         bundle = ResourceBundle.getBundle("language.lang", locale);
