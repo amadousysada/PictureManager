@@ -70,6 +70,7 @@ public class FXMLDocumentController implements Initializable {
     private ResourceBundle bundle;
     private Locale locale ;
     private static String lang;
+    private ListView listeImagesCurrent;
     @FXML
     private Text rechercheLbl;
     @FXML
@@ -122,6 +123,8 @@ public class FXMLDocumentController implements Initializable {
     private HBox ImageEditOption;
     @FXML
     private ImageView imageDiapoId;
+    @FXML
+    private TextField champSearch;
     
     private static String repertoire;
 
@@ -198,7 +201,7 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
-      @FXML
+    @FXML
     private void btnFR(ActionEvent event) {
         
         setLang("fr");
@@ -210,8 +213,8 @@ public class FXMLDocumentController implements Initializable {
         
         ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
-     @FXML
-    private  void btnEN(ActionEvent event) {
+    @FXML
+    private void btnEN(ActionEvent event) {
         setLang("en");
         loadLang("en");
         
@@ -222,7 +225,7 @@ public class FXMLDocumentController implements Initializable {
         ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
 
     }
-     @FXML
+    @FXML
     private void btnAR(ActionEvent event) {
        setLang("ar");
        loadLang("ar");
@@ -233,8 +236,7 @@ public class FXMLDocumentController implements Initializable {
         
         FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
-    public  void loadLang(String lang)
-    {
+    private void loadLang(String lang){
         locale= new Locale(lang);
         bundle = ResourceBundle.getBundle("language.lang", locale);
         buttonDirectoryChooser.setText(bundle.getString("dossier_eng"));
@@ -270,12 +272,14 @@ public class FXMLDocumentController implements Initializable {
             if (selectedDirectory.isDirectory()) { // make sure it's a directory
                 folderMessage.setVisible(false);
                 imageSelected.setImage(null);
+                repertoire = selectedDirectory.getAbsolutePath();
                 for (final File f : selectedDirectory.listFiles(IMAGE_FILTER)) {
                     images.add(f.getName());
                     
                 }
                 
                 listeImages.setItems(images);
+                listeImagesCurrent=new ListView(images);
                 listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
                     @Override
                     public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -295,7 +299,7 @@ public class FXMLDocumentController implements Initializable {
                                 imageSelected.setImage(null);
                             }
                             
-                            repertoire = selectedDirectory.getAbsolutePath();
+                            
                             
                         } catch (IOException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -313,13 +317,11 @@ public class FXMLDocumentController implements Initializable {
     private void diaporama(MouseEvent event){
         try {
             FXMLLoader loader=new FXMLLoader(getClass().getResource("Diaporama.fxml"));
+            Diaporama ctrldiapo=new Diaporama(selectedDirectory, listeImages);
+            loader.setController(ctrldiapo);
             Stage stage=new Stage();
             Parent root = (Parent)loader.load();
-            
             stage.setScene(new Scene(root));
-            Diaporama ctrldiapo=loader.<Diaporama>getController();
-            ctrldiapo.setSelectedDirectory(selectedDirectory);
-            ctrldiapo.setListeImages(listeImages);  
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                     @Override
                     public void handle(WindowEvent e) {
@@ -359,13 +361,13 @@ public class FXMLDocumentController implements Initializable {
                     if(key!=null){
                         Object orem=obj.get(key);
                         obj.remove(key);
-                        s=removePic((ArrayList) orem,nom.substring(0, nom.length()-4));
+                        s=removePic((ArrayList) orem,nom);
                         if(!((ArrayList)s).isEmpty()){
                             obj.put(key, s);
                         }
                         
                     }
-                    list.add((selectedDirectory+"/"+nomImage.getText()).subSequence(0, (selectedDirectory+"/"+nomImage.getText()).length()-4));
+                    list.add((selectedDirectory+"/"+nomImage.getText()));
                     obj.put(motCle.getText(), list);
                 }
                 else{
@@ -375,17 +377,18 @@ public class FXMLDocumentController implements Initializable {
                         if(!key.equals(motCle.getText())){
                             Object orem=obj.get(key);
                             obj.remove(key);
-                            orem=removePic((ArrayList) orem,nom.substring(0, nom.length()-4));
+                            orem=removePic((ArrayList) orem,nom);
                             if(!((ArrayList)orem).isEmpty()){
                                 obj.put(key, orem);
                             }
                              
                         }
                     }
+                    if(!key.equals(motCle.getText())){
                     ArrayList list = new ArrayList();
                     list=(ArrayList) s;
-                    list.add((selectedDirectory+"/"+nomImage.getText()).subSequence(0, (selectedDirectory+"/"+nomImage.getText()).length()-4));
-                    obj.put(motCle.getText(), list);
+                    list.add((selectedDirectory+"/"+nomImage.getText()));
+                    obj.put(motCle.getText(), list);}
                 }
                 
                 
@@ -404,8 +407,43 @@ public class FXMLDocumentController implements Initializable {
             
     }
         
+    @FXML
+    private void recherche(ActionEvent event){
+        if(champSearch!=null){
+            try {
+                System.out.println(champSearch.getText());
+                ObjectMapper mapper = new ObjectMapper();
+                JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+                Object s=obj.get(champSearch.getText());
+                if(s!=null){
+                    ObservableList<String> images =FXCollections.observableArrayList ();
+                    for (final Object f : (ArrayList) s) {
+                        images.add(f.toString().substring(selectedDirectory.getAbsolutePath().length()+1));
+                    
+                    }
+                    
+                    //images.setAll((ArrayList) s);
+                    
+                
+                listeImages.setItems(images);
+                imageSelected.setImage(null);
+                ImageEditOption.setVisible(false);
+                }
+                
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     
-    
+    @FXML
+    private void champSearchListen(KeyEvent event){
+        if(champSearch.getText().equals("")){
+            listeImages.setItems(listeImagesCurrent.getItems());
+            imageSelected.setImage(null);
+            ImageEditOption.setVisible(false);
+        }
+    }
     static final String[] EXTENSIONS = new String[]{"gif", "png", "bmp", "jpg"};
     
     static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
@@ -464,7 +502,7 @@ public class FXMLDocumentController implements Initializable {
             for(Object i : obj.keySet().toArray()){
                 for(int j=0;j<((ArrayList)obj.get(i)).size();j++){
                     ArrayList t=(ArrayList)obj.get(i);
-                    if(t.get(j).equals(s.subSequence(0, s.length()-4))){
+                    if(t.get(j).equals(s)){
                         resultat=i.toString();
                         break;
                     }

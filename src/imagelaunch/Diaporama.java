@@ -35,12 +35,16 @@ public class Diaporama implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
          //To change body of generated methods, choose Tools | Templates.
          initDiaporama();
-          System.out.println("Hello");
     }
 
     public Diaporama() {
     }
 
+    public Diaporama(File selectedDirectory, ListView listeImages) {
+        this.selectedDirectory = selectedDirectory;
+        this.listeImages = listeImages;
+    }
+    
     public ListView getListeImages() {
         return listeImages;
     }

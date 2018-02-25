@@ -40,8 +40,8 @@
             </HBox>
             <HBox prefHeight="43.0" prefWidth="243.0">
                <children>
-                  <TextField prefHeight="25.0" prefWidth="211.0" />
-                  <Button fx:id="lancerRech" ellipsisString="Go" mnemonicParsing="false" text="Ok" />
+                  <TextField fx:id="champSearch" onKeyTyped="#champSearchListen" prefHeight="25.0" prefWidth="211.0" />
+                  <Button fx:id="lancerRech" ellipsisString="Go" mnemonicParsing="false" onAction="#recherche" text="Ok" />
                </children>
             </HBox>
             <GridPane prefHeight="408.0" prefWidth="243.0" style="-fx-border-color: #BFBFBF; -fx-border-radius: 2;">
