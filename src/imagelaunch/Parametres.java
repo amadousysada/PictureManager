@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -144,42 +145,52 @@ public class Parametres implements Initializable {
     
     @FXML
     private void okButton(ActionEvent event){
+    
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
           
-    if(choiceButton.getSelectionModel().getSelectedItem()!=selectedlang_)
-    {
-        String valuelang =  (String) choiceButton.getSelectionModel().getSelectedItem();
-        
+        if(choiceButton.getSelectionModel().getSelectedItem()!=selectedlang_){
+            String valuelang =  (String) choiceButton.getSelectionModel().getSelectedItem();
 
-         
-        switch(valuelang) 
-        {
-            case  "Français":
-                  //System.out.println("FR");
-                  loadLang("fr");
-                  languest_="fr";
-                  lg="Français";
-                  break;
-             case  "English":
-                  //System.out.println("EN"); 
-                 loadLang("en");
-                 languest_="en";
-                 //FXMLDocumentController c = new FXMLDocumentController("");
-                 lg="English";
-                 break; 
-             case  "العربية":
-                 // System.out.println("AR");
-                 loadLang("ar");
-                 languest_="ar";
-                 choiceButton.getSelectionModel().select("العربية");
-                 lg="العربية";
-                 break; 
-        }
+
+
+            switch(valuelang) 
+            {
+                case  "Français":
+                      //System.out.println("FR");
+                      loadLang("fr");
+                      languest_="fr";
+                      lg="Français";
+                      alert.setTitle("Information");
+                      alert.setHeaderText("Vous avez choisi les paramètres de langue par défaut");
+                      alert.setContentText("Elles prennent effet dès maintenant!");
+                      break;
+                 case  "English":
+                      //System.out.println("EN"); 
+                     loadLang("en");
+                     languest_="en";
+                     //FXMLDocumentController c = new FXMLDocumentController("");
+                     lg="English";
+                     alert.setTitle("Information");
+                     alert.setContentText("Your changement take effect right now");
+                     break; 
+                 case  "العربية":
+                     // System.out.println("AR");
+                     loadLang("ar");
+                     languest_="ar";
+                     choiceButton.getSelectionModel().select("العربية");
+                     lg="العربية";
+                     alert.setTitle("معلومات");
+                     alert.setContentText("إلس بريننت إفيت ديس مينتينانت!");
+
+                     break; 
+            }
+
                
-    }
+        }
+        alert.showAndWait();
+        Stage stage = (Stage) Buttonok.getScene().getWindow();
  
-      Stage stage = (Stage) Buttonok.getScene().getWindow();
- 
-      stage.hide();
+        stage.hide();
   
     }
     
@@ -187,7 +198,7 @@ public class Parametres implements Initializable {
     private void annulerButton(ActionEvent event){
        
     Stage stage = (Stage) ButtonAnnuler.getScene().getWindow();
- 
+    
     stage.close();
     }
 

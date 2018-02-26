@@ -151,13 +151,12 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
             
             stage.setOnHiding((WindowEvent event1) -> {
-            loadLang(Parametres.getLangParam(lang));   
-            Alert alert = new Alert(AlertType.INFORMATION);
+                System.out.println(event.toString());
+            loadLang(Parametres.getLangParam(lang));
+            
             if(Parametres.getLangParam(lang).equals("fr"))
             {
-            alert.setTitle("Information");
-            alert.setHeaderText("Vous avez choisi les paramètres de langue par défaut");
-            alert.setContentText("Elles prennent effet dès maintenant!");
+            
             setLang("fr");
              FRAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
         
@@ -167,8 +166,7 @@ public class FXMLDocumentController implements Initializable {
             }
             else if(Parametres.getLangParam(lang).equals("en"))
             {
-            alert.setTitle("Information");
-            alert.setContentText("Your changement take effect right now");
+            
              setLang("en"); 
              ENAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
         
@@ -178,8 +176,6 @@ public class FXMLDocumentController implements Initializable {
             }
               else if(Parametres.getLangParam(lang).equals("ar"))
             {
-            alert.setTitle("معلومات");
-            alert.setContentText("إلس بريننت إفيت ديس مينتينانت!");
             setLang("ar");
             ARAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
         
@@ -192,7 +188,7 @@ public class FXMLDocumentController implements Initializable {
                   
               }
 
-            alert.showAndWait();
+            
            });
             
         } catch (IOException ex) {
