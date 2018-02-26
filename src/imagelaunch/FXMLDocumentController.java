@@ -381,14 +381,18 @@ public class FXMLDocumentController implements Initializable {
                             if(!((ArrayList)orem).isEmpty()){
                                 obj.put(key, orem);
                             }
-                             
+                            ArrayList list = new ArrayList();
+                            list=(ArrayList) s;
+                            list.add((selectedDirectory+"/"+nomImage.getText()));
+                            obj.put(motCle.getText(), list);
                         }
                     }
-                    if(!key.equals(motCle.getText())){
-                    ArrayList list = new ArrayList();
-                    list=(ArrayList) s;
-                    list.add((selectedDirectory+"/"+nomImage.getText()));
-                    obj.put(motCle.getText(), list);}
+                    else{
+                        ArrayList list = new ArrayList();
+                        list=(ArrayList) s;
+                        list.add((selectedDirectory+"/"+nomImage.getText()));
+                        obj.put(motCle.getText(), list);
+                    }
                 }
                 
                 
