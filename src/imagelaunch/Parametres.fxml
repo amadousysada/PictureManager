@@ -19,7 +19,7 @@
                      <children>
                         <Label fx:id="format_lbl" layoutX="28.0" layoutY="86.0" text="Formats supportés  :" />
                         <Label layoutX="137.0" layoutY="86.0" text="PNG    ,   JPEG" />
-                        <Label fx:id="dossier_lbl" layoutX="23.0" layoutY="41.0" text="_ Dossier par défaut _" />
+                        <Label fx:id="dossier_lbl" layoutX="23.0" layoutY="41.0" text="_ Dossier temporaire _" />
                         <TextField fx:id="repertory" layoutX="148.0" layoutY="37.0" prefHeight="25.0" prefWidth="275.0" />
                      </children>
                   </AnchorPane>
@@ -30,7 +30,6 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
                         <ChoiceBox id="choicebox" fx:id="choiceButton" layoutX="14.0" layoutY="23.0" prefHeight="25.0" prefWidth="135.0" />
-                        <Label layoutX="14.0" layoutY="77.0" text="Vous devez redémarrer l'application pour prendre en compte les changements" />
                      </children>
                   </AnchorPane>
             </content>

@@ -151,10 +151,9 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
             
             stage.setOnHiding((WindowEvent event1) -> {
-                System.out.println(event.toString());
-            loadLang(Parametres.getLangParam(lang));
+            loadLang(Parametres.getLangParam());
             
-            if(Parametres.getLangParam(lang).equals("fr"))
+            if(Parametres.getLangParam().equals("fr"))
             {
             
             setLang("fr");
@@ -164,7 +163,7 @@ public class FXMLDocumentController implements Initializable {
         
              ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
             }
-            else if(Parametres.getLangParam(lang).equals("en"))
+            else if(Parametres.getLangParam().equals("en"))
             {
             
              setLang("en"); 
@@ -174,7 +173,7 @@ public class FXMLDocumentController implements Initializable {
         
              ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
             }
-              else if(Parametres.getLangParam(lang).equals("ar"))
+              else if(Parametres.getLangParam().equals("ar"))
             {
             setLang("ar");
             ARAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
@@ -478,7 +477,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    public void setLang(String lang) {
+    public  void setLang(String lang) {
         this.lang = lang;
     }
 

@@ -197,13 +197,44 @@ public class Parametres implements Initializable {
      @FXML
     private void annulerButton(ActionEvent event){
        
+    String valuelang =  (String) choiceButton.getSelectionModel().getSelectedItem();
+    
+   // System.out.println(valuelang);
+    
+    //FXMLDocumentController.setLang(valuelang);
+    
+    String langue = null;
+    
+    switch(valuelang) 
+            {
+                case  "Français":
+                      //System.out.println("FR");
+                      langue="fr";
+                      break;
+                 case  "English":
+                      //System.out.println("EN");
+                     langue="en";
+                    
+                     break; 
+                 case  "العربية":
+                     // System.out.println("AR");
+                     langue="ar";
+                    
+                     break; 
+            }
+
+    
+    this.languest_ =  langue;
+    
+    
+     
     Stage stage = (Stage) ButtonAnnuler.getScene().getWindow();
     
     stage.close();
     }
 
     
- public static String getLangParam(String lang) {
+ public static String getLangParam() {
         return languest_;
     }
   
