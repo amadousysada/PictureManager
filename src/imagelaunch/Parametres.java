@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author sy&gaby
+ * @author sy & gaby
  */
 public class Parametres implements Initializable {
     
@@ -44,6 +44,7 @@ public class Parametres implements Initializable {
      @FXML private Button ButtonAnnuler;
      
      @FXML public Label  optionsAction;
+     @FXML public Label  labelType;
      
      @FXML public Label  dossier_lbl;
       
@@ -92,11 +93,16 @@ public class Parametres implements Initializable {
        //Récupérer le répertoire sélectionné pour les photos affichés depuis le controller principal
        String s   =  FXMLDocumentController.getVALUE();
      
-       //Initilaiser répertoire temporaire
+       //Initilaiser répertoire courant
        repertory.setText(s);
       
        //Initialiser la langue 
        this.lang_ =  FXMLDocumentController.getLang();
+       String types="";
+       for(String type :FXMLDocumentController.EXTENSIONS){
+           types+=type+" ; ";
+       }
+       labelType.setText(types.substring(0,types.length()-2));
        
        //Définir la langue qui sera séléctionné par défaut par le choicebutton
        if(lang_.equals("fr"))

@@ -411,34 +411,68 @@ public class FXMLDocumentController implements Initializable {
         
     @FXML
     private void recherche(ActionEvent event){
-        if(motcle_rech.isSelected())
-        {
+        
         if(champSearch!=null){
-            try {
-                System.out.println(champSearch.getText());
-                ObjectMapper mapper = new ObjectMapper();
-                JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
-                Object s=obj.get(champSearch.getText());
-                if(s!=null){
-                    ObservableList<String> images =FXCollections.observableArrayList ();
-                    for (final Object f : (ArrayList) s) {
-                        images.add(f.toString().substring(selectedDirectory.getAbsolutePath().length()+1));
-                    
+            if(motcle_rech.isSelected()){
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+                    Object s=obj.get(champSearch.getText());
+                    if(s!=null){
+                        ObservableList<String> images =FXCollections.observableArrayList ();
+                        for (final Object f : (ArrayList) s) {
+                            images.add(f.toString().substring(selectedDirectory.getAbsolutePath().length()+1));
+
+                        }
+                        
+                        
+                        listeImages.setItems(null);
+                        listeImages.setItems(images);
+                        
+                        
                     }
-                    
-                    //images.setAll((ArrayList) s);
-                    
+                    else{
+                        listeImages.setItems(null);
+                        locale= new Locale(lang);
+                        bundle = ResourceBundle.getBundle("language.lang", locale);
+                        Alert alert=new Alert(Alert.AlertType.WARNING);
+                        alert.setContentText(bundle.getString("folder_mess_empty_key"));
+                        alert.setResizable(false);
+                        alert.setHeaderText("");
+                        alert.show();
+                    }
                 
-                listeImages.setItems(images);
-                imageSelected.setImage(null);
-                ImageEditOption.setVisible(false);
+                } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            else{
+                String im=selectedDirectory.getAbsolutePath()+"/"+champSearch.getText();
+                ObservableList<String> images =FXCollections.observableArrayList ();
+                for (final File f : selectedDirectory.listFiles(IMAGE_FILTER)) {
+                    if((f.getName().substring(0,f.getName().length()-4)).equals(champSearch.getText())){
+                        images.add(f.getName());
+                    }   
+                }
+                if(!images.isEmpty()){
+                    listeImages.setItems(images);
+                }
+                else{
+                    
+                    listeImages.setItems(null);
+                    locale= new Locale(lang);
+                    bundle = ResourceBundle.getBundle("language.lang", locale);
+                    images.add(bundle.getString("folder_mess_empty"));
+                    Alert alert=new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText(bundle.getString("folder_mess_empty"));
+                    alert.setResizable(false);
+                    alert.setHeaderText("");
+                    alert.show();
+                    
+                }
             }
         }
-        }
+        
     }
     
     @FXML
