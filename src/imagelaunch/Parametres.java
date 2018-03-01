@@ -212,14 +212,16 @@ public class Parametres implements Initializable {
        
     String valuelang =  (String) choiceButton.getSelectionModel().getSelectedItem();
     
-   // System.out.println(valuelang);
     
     //FXMLDocumentController.setLang(valuelang);
     
     String langue = null;
     
-    switch(valuelang) 
-            {
+    if(lg.equals(valuelang)==true)
+    {
+                
+           switch(valuelang) 
+               {
                 case  "Français":
                       //System.out.println("FR");
                       langue="fr";
@@ -234,10 +236,14 @@ public class Parametres implements Initializable {
                      langue="ar";
                     
                      break; 
-            }
+                }
+    //Définition de la langue en vigueur avant la fermeture de la fenêtre
+      this.languest_ =  langue;
+    }
 
-    //Définition de la langue en vigueur avant la fermeture de la fenêtre 
-    this.languest_ =  langue;
+    
+   
+  
     
     
      //Récupérer et fermer la fenetre courante
