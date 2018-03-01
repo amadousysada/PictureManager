@@ -71,6 +71,8 @@ public class Parametres implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
        //To change body of generated methods, choose Tools | Templates.
+       
+       //Initialisation de la fenetre parmetres
         initDefaultValues();
         
        
@@ -87,18 +89,16 @@ public class Parametres implements Initializable {
     private void initDefaultValues() {
         
       
-       
+       //Récupérer le répertoire sélectionné pour les photos affichés depuis le controller principal
        String s   =  FXMLDocumentController.getVALUE();
      
-       //Initilaiser répertoire
+       //Initilaiser répertoire temporaire
        repertory.setText(s);
-      // System.out.println("La langue par défaut est "+lang_);
-      
-      //selectedlang_ =  (String) choiceButton.getSelectionModel().getSelectedItem();
       
        //Initialiser la langue 
        this.lang_ =  FXMLDocumentController.getLang();
        
+       //Définir la langue qui sera séléctionné par défaut par le choicebutton
        if(lang_.equals("fr"))
        {
            lg="Français";
@@ -113,18 +113,21 @@ public class Parametres implements Initializable {
        }   
      
        
-       //System.out.println("langue par défaut :"+lang_);
-       
+       //Loading de la lagngue de la fenetre principale
        loadLang(lang_);
         
        //Initialiser les langues
        choiceButton.getItems().addAll("Français", "English", "العربية");
+       
+       //Définition de la langue sléctionné à l'ouverture de la fenetre parametre
        choiceButton.getSelectionModel().select(lg);
        
     }
+    //  Méthode pour l'internalisation de la fenetre parametres
        private void loadLang(String lang)
     {
         locale= new Locale(lang);
+        
         bundle = ResourceBundle.getBundle("language.lang", locale);
         
         optionsAction.setText(bundle.getString("option_lbl"));
@@ -143,9 +146,12 @@ public class Parametres implements Initializable {
                 
         }
     
+    // Button OK de validation
     @FXML
     private void okButton(ActionEvent event){
-    
+        
+        //Créer un message d'information 
+        
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
           
         if(choiceButton.getSelectionModel().getSelectedItem()!=selectedlang_){
@@ -168,7 +174,6 @@ public class Parametres implements Initializable {
                       //System.out.println("EN"); 
                      loadLang("en");
                      languest_="en";
-                     //FXMLDocumentController c = new FXMLDocumentController("");
                      lg="English";
                      alert.setTitle("Information");
                      alert.setContentText("Your changement take effect right now");
@@ -188,12 +193,14 @@ public class Parametres implements Initializable {
                
         }
         alert.showAndWait();
+        
+        //Récupérer et fermer la fenetre courante
         Stage stage = (Stage) Buttonok.getScene().getWindow();
  
         stage.hide();
   
     }
-    
+    //Button Annuler 
      @FXML
     private void annulerButton(ActionEvent event){
        
@@ -223,17 +230,17 @@ public class Parametres implements Initializable {
                      break; 
             }
 
-    
+    //Définition de la langue en vigueur avant la fermeture de la fenêtre 
     this.languest_ =  langue;
     
     
-     
+     //Récupérer et fermer la fenetre courante
     Stage stage = (Stage) ButtonAnnuler.getScene().getWindow();
     
     stage.close();
     }
 
-    
+ //Getteur de la langue en vigueur
  public static String getLangParam() {
         return languest_;
     }
