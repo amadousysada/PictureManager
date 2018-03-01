@@ -43,6 +43,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -133,7 +134,9 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-         setLang("fr");
+        
+        initParametresAccueil();
+         
     }    
     
     
@@ -530,7 +533,14 @@ public class FXMLDocumentController implements Initializable {
         }
         return  li;
     }
+
+    private void initParametresAccueil() {
+        setLang("fr");
+        ToggleGroup group = new ToggleGroup();
+        motcle_rech.setToggleGroup(group);
+        nom_rech.setToggleGroup(group);
+        nom_rech.setSelected(true);
     
-    
+    }
     
 }
