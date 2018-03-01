@@ -411,6 +411,8 @@ public class FXMLDocumentController implements Initializable {
         
     @FXML
     private void recherche(ActionEvent event){
+        if(motcle_rech.isSelected())
+        {
         if(champSearch!=null){
             try {
                 System.out.println(champSearch.getText());
@@ -435,6 +437,7 @@ public class FXMLDocumentController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
         }
     }
     
