@@ -33,6 +33,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -52,10 +53,15 @@ import javafx.scene.layout.HBox;
 import static javafx.scene.paint.Color.WHITE;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import javax.imageio.ImageIO;
+import javax.management.Notification;
+import org.controlsfx.control.Notifications;
+import org.controlsfx.control.action.Action;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -347,7 +353,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void saveKey(ActionEvent event){
-        if(!nomImage.equals("")&& !motCle.equals("")){
+        
+        if(!nomImage.getText().equals("") && !motCle.getText().equals("")){
             try{
                 ObjectMapper mapper = new ObjectMapper();
                 JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
@@ -397,6 +404,16 @@ public class FXMLDocumentController implements Initializable {
                 FileWriter file = new FileWriter("src/imagelaunch/motscles.json");
                 file.write(obj.toJSONString());
                 file.flush();
+                locale= new Locale(lang);
+                bundle = ResourceBundle.getBundle("language.lang", locale);
+                final Notifications notif = Notifications.create()
+                    .title(bundle.getString("titre_notif"))
+                    .text(bundle.getString("msg_notif"))
+                    .hideAfter(Duration.seconds(10))
+                    .darkStyle()
+                    .position(Pos.BASELINE_CENTER);
+                
+                notif.showConfirm();
                 
             } 
             catch(IOException e){}
@@ -412,7 +429,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void recherche(ActionEvent event){
         
-        if(champSearch!=null){
+        if(champSearch!=null && selectedDirectory!=null){
             if(motcle_rech.isSelected()){
                 try {
                     ObjectMapper mapper = new ObjectMapper();
@@ -420,10 +437,9 @@ public class FXMLDocumentController implements Initializable {
                     Object s=obj.get(champSearch.getText());
                     if(s!=null){
                         ObservableList<String> images =FXCollections.observableArrayList ();
-                        for (final Object f : (ArrayList) s) {
+                        ((ArrayList) s).forEach((f) -> {
                             images.add(f.toString().substring(selectedDirectory.getAbsolutePath().length()+1));
-
-                        }
+                        });
                         
                         
                         listeImages.setItems(null);
@@ -472,16 +488,27 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
+        else if(selectedDirectory==null){
+            
+            locale= new Locale(lang);
+            bundle = ResourceBundle.getBundle("language.lang", locale);
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setContentText(bundle.getString("folder_mess_empty_dir"));
+            alert.setResizable(false);
+            alert.setHeaderText("");
+            alert.show();
+        }
         
     }
     
     @FXML
     private void champSearchListen(KeyEvent event){
-        if(champSearch.getText().equals("")){
+        if(champSearch.getText().equals("") && selectedDirectory!=null){
             listeImages.setItems(listeImagesCurrent.getItems());
             imageSelected.setImage(null);
             ImageEditOption.setVisible(false);
         }
+        
     }
     static final String[] EXTENSIONS = new String[]{"gif", "png", "bmp", "jpg"};
     
