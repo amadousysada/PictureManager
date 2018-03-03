@@ -6,11 +6,9 @@
 package imagelaunch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -18,18 +16,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,7 +29,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -50,19 +41,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import static javafx.scene.paint.Color.WHITE;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javax.imageio.ImageIO;
-import javax.management.Notification;
 import org.controlsfx.control.Notifications;
-import org.controlsfx.control.action.Action;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -284,30 +269,27 @@ public class FXMLDocumentController implements Initializable {
                 
                 listeImages.setItems(images);
                 listeImagesCurrent=new ListView(images);
-                listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                        try {
-                            if(newValue!=null){
-                                File f=new File(selectedDirectory.getAbsolutePath()+"/"+newValue.toString());
-                                BufferedImage img = ImageIO.read(f);
-                                imageSelected.setImage(new Image(new FileInputStream(selectedDirectory.getAbsolutePath()+"/"+f.getName()),388,406,false,false));
-                                nomImage.setText(f.getName());
-                                typeImg.setText(getExtension(f));
-                                tailleImg.setText(getFormatedSize(f));
-                                ImageEditOption.setVisible(true);
-                                motCle.setText(getCle(selectedDirectory.getAbsolutePath()+"/"+f.getName()));
-                            }
-                            else{
-                                ImageEditOption.setVisible(false);
-                                imageSelected.setImage(null);
-                            }
-                            
-                            
-                            
-                        } catch (IOException ex) {
-                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                listeImages.getSelectionModel().selectedItemProperty().addListener((ObservableValue observable, Object oldValue, Object newValue) -> {
+                    try {
+                        if(newValue!=null){
+                            File f=new File(selectedDirectory.getAbsolutePath()+"/"+newValue.toString());
+                            BufferedImage img = ImageIO.read(f);
+                            imageSelected.setImage(new Image(new FileInputStream(selectedDirectory.getAbsolutePath()+"/"+f.getName()),388,406,false,false));
+                            nomImage.setText(f.getName());
+                            typeImg.setText(getExtension(f));
+                            tailleImg.setText(getFormatedSize(f));
+                            ImageEditOption.setVisible(true);
+                            motCle.setText(getCle(selectedDirectory.getAbsolutePath()+"/"+f.getName()));
                         }
+                        else{
+                            ImageEditOption.setVisible(false);
+                            imageSelected.setImage(null);
+                        }
+                        
+                        
+                        
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
                 
@@ -326,15 +308,9 @@ public class FXMLDocumentController implements Initializable {
             Stage stage=new Stage();
             Parent root = (Parent)loader.load();
             stage.setScene(new Scene(root));
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent e) {
-//                        for( ScheduledExecutorService sched : activeExecutorServices ){
-//                            sched.shutdown();
-//                        }c
-                        ctrldiapo.setExit(true);
-                        
-                    }});
+            stage.setOnCloseRequest((WindowEvent e) -> {
+                    ctrldiapo.setExit(true);
+            });
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -386,14 +362,14 @@ public class FXMLDocumentController implements Initializable {
                             if(!((ArrayList)orem).isEmpty()){
                                 obj.put(key, orem);
                             }
-                            ArrayList list = new ArrayList();
+                            ArrayList list;
                             list=(ArrayList) s;
                             list.add((selectedDirectory+"/"+nomImage.getText()));
                             obj.put(motCle.getText(), list);
                         }
                     }
                     else{
-                        ArrayList list = new ArrayList();
+                        ArrayList list;
                         list=(ArrayList) s;
                         list.add((selectedDirectory+"/"+nomImage.getText()));
                         obj.put(motCle.getText(), list);
@@ -512,17 +488,13 @@ public class FXMLDocumentController implements Initializable {
     }
     static final String[] EXTENSIONS = new String[]{"gif", "png", "bmp", "jpg"};
     
-    static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
-
-        @Override
-        public boolean accept(final File dir, final String name) {
-            for (final String ext : EXTENSIONS) {
-                if (name.endsWith("." + ext)) {
-                    return (true);
-                }
+    static final FilenameFilter IMAGE_FILTER = (final File dir, final String name) -> {
+        for (final String ext : EXTENSIONS) {
+            if (name.endsWith("." + ext)) {
+                return (true);
             }
-            return (false);
         }
+        return (false);
     };
     public static String getExtension(File f) { 
         if(f != null) { 
