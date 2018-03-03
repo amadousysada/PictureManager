@@ -429,7 +429,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void recherche(ActionEvent event){
         
-        if(champSearch!=null && selectedDirectory!=null){
+        if(!champSearch.getText().equals("") && selectedDirectory!=null){
             if(motcle_rech.isSelected()){
                 try {
                     ObjectMapper mapper = new ObjectMapper();
