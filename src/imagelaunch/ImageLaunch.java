@@ -5,22 +5,14 @@
  */
 package imagelaunch;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.json.simple.*;
+
 
 /**
  *
@@ -32,13 +24,10 @@ public class ImageLaunch extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));        
         Scene scene = new Scene(root);
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-       @Override
-       public void handle(WindowEvent e) {
-          Platform.exit();
-          System.exit(0);
-       }
-    });
+        stage.setOnCloseRequest((WindowEvent e) -> {
+            Platform.exit();
+            System.exit(0);
+        });
         stage.setScene(scene);
         stage.show();
     }
