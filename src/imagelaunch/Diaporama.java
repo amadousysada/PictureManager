@@ -65,6 +65,7 @@ public class Diaporama implements Initializable {
         this.exit = exit;
     }
     
+    // lancer le diaporama avec la classe Timer
     private void initDiaporama(){
         long delay = 2000;// mis a jour de la photo chaque 2 secondes;
             

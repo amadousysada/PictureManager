@@ -7,6 +7,7 @@ package imagelaunch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -125,13 +126,35 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        String s="{}";
+        File f=new File("motscles.json");
+        try {
+            f.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(f));
+            writer.write(s);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+     
+        try {
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        /* appel de la fonction pour Initialisation des radio boutons de la recherche */
         initParametresAccueil();
          
     }    
     
     
-  
+    /* action associee au boutton setting en bas a droite de la fenetre principale */
     @FXML
     private void openParametre(ActionEvent event){
         
@@ -147,39 +170,28 @@ public class FXMLDocumentController implements Initializable {
             stage.setOnHiding((WindowEvent event1) -> {
             loadLang(Parametres.getLangParam());
             
-            if(Parametres.getLangParam().equals("fr"))
-            {
-            
-            setLang("fr");
-             FRAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
-        
-             ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
-        
-             ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
-            }
-            else if(Parametres.getLangParam().equals("en"))
-            {
-            
-             setLang("en"); 
-             ENAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
-        
-             FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
-        
-             ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
-            }
-              else if(Parametres.getLangParam().equals("ar"))
-            {
-            setLang("ar");
-            ARAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
-        
-            ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
-        
-            FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
-            } 
-            else
-              {
-                  
-              }
+                switch (Parametres.getLangParam()) {
+                    case "fr":
+                        setLang("fr");
+                        FRAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+                        ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+                        ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+                        break;
+                    case "en":
+                        setLang("en");
+                        ENAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+                        FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+                        ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+                        break;
+                    case "ar":
+                        setLang("ar");
+                        ARAction.setStyle("-fx-background-color: #8C98A0;-fx-text-fill:#f0ebeb;");
+                        ENAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+                        FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
+                        break;
+                    default:
+                        break;
+                }
 
             
            });
@@ -190,6 +202,7 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
+    /* action associe au click du bouton FR pour la langue francaise */
     @FXML
     private void btnFR(ActionEvent event) {
         
@@ -202,6 +215,8 @@ public class FXMLDocumentController implements Initializable {
         
         ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
+    
+    /* action associe au click du bouton EN pour la langue anglaise */
     @FXML
     private void btnEN(ActionEvent event) {
         setLang("en");
@@ -214,6 +229,8 @@ public class FXMLDocumentController implements Initializable {
         ARAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
 
     }
+    
+    /* action associe au click du bouton AR pour la langue arabe */
     @FXML
     private void btnAR(ActionEvent event) {
        setLang("ar");
@@ -225,6 +242,8 @@ public class FXMLDocumentController implements Initializable {
         
         FRAction.setStyle("-fx-background-color: -fx-inner-border;-fx-text-fill:#000000;");
     }
+    
+    /* charger la langue active */
     private void loadLang(String lang){
         locale= new Locale(lang);
         bundle = ResourceBundle.getBundle("language.lang", locale);
@@ -246,6 +265,8 @@ public class FXMLDocumentController implements Initializable {
                 
         }
     
+    
+    /* fenetre pour choix du repertoire */
     @FXML
     private void openDirectory(ActionEvent event){
         
@@ -298,7 +319,7 @@ public class FXMLDocumentController implements Initializable {
         }
     
     }
-    
+    /* lancement du diaporama */
     @FXML
     private void diaporama(MouseEvent event){
         try {
@@ -317,23 +338,26 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    
+    /* basculer vers l'image suivante */
     @FXML
     private void forward(MouseEvent event){
         listeImages.getSelectionModel().selectNext();
     }
+    
+    /* basculer vers l'image precedante */
     @FXML
     private void previous(MouseEvent event){
         listeImages.getSelectionModel().selectPrevious();
     }
     
+    /* ajout d'un mot cle a une image */
     @FXML
     private void saveKey(ActionEvent event){
         
         if(!nomImage.getText().equals("") && !motCle.getText().equals("")){
             try{
                 ObjectMapper mapper = new ObjectMapper();
-                JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+                JSONObject obj = mapper.readValue(new File("motscles.json"), JSONObject.class);
                 Object s=obj.get(motCle.getText());
                 if(s==null){
                     String nom=(String) (selectedDirectory+"/"+nomImage.getText());
@@ -377,7 +401,7 @@ public class FXMLDocumentController implements Initializable {
                 }
                 
                 
-                FileWriter file = new FileWriter("src/imagelaunch/motscles.json");
+                FileWriter file = new FileWriter("motscles.json");
                 file.write(obj.toJSONString());
                 file.flush();
                 locale= new Locale(lang);
@@ -401,7 +425,9 @@ public class FXMLDocumentController implements Initializable {
             
             
     }
-        
+    
+    
+    /* fonction de recherche */
     @FXML
     private void recherche(ActionEvent event){
         
@@ -409,7 +435,7 @@ public class FXMLDocumentController implements Initializable {
             if(motcle_rech.isSelected()){
                 try {
                     ObjectMapper mapper = new ObjectMapper();
-                    JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+                    JSONObject obj = mapper.readValue(new File("motscles.json"), JSONObject.class);
                     Object s=obj.get(champSearch.getText());
                     if(s!=null){
                         ObservableList<String> images =FXCollections.observableArrayList ();
@@ -477,6 +503,7 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
+    /* listener du champs de recherche */
     @FXML
     private void champSearchListen(KeyEvent event){
         if(champSearch.getText().equals("") && selectedDirectory!=null){
@@ -517,7 +544,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public  void setLang(String lang) {
-        this.lang = lang;
+        FXMLDocumentController.lang = lang;
     }
 
     public static  String getLang() {
@@ -533,7 +560,7 @@ public class FXMLDocumentController implements Initializable {
         String resultat=null;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JSONObject obj = mapper.readValue(new File("src/imagelaunch/motscles.json"), JSONObject.class);
+            JSONObject obj = mapper.readValue(new File("motscles.json"), JSONObject.class);
           
             Object o=obj.keySet();
             

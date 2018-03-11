@@ -89,26 +89,25 @@ public class Parametres implements Initializable {
        repertory.setText(s);
       
        //Initialiser la langue 
-       this.lang_ =  FXMLDocumentController.getLang();
+       Parametres.lang_ =  FXMLDocumentController.getLang();
        String types="";
        for(String type :FXMLDocumentController.EXTENSIONS){
            types+=type+" ; ";
        }
        labelType.setText(types.substring(0,types.length()-2));
        
-       //Définir la langue qui sera séléctionné par défaut par le choicebutton
-       if(lang_.equals("fr"))
-       {
-           lg="Français";
-       }
-       else if(lang_.equals("en"))
-       {
-           lg="English"; 
-       }   
-       else
-       {
-            lg="العربية";
-       }   
+        //Définir la langue qui sera séléctionné par défaut par le choicebutton
+        switch (lang_) {
+            case "fr":
+                lg="Français";
+                break;
+            case "en":
+                lg="English";
+                break;
+            default:
+                lg="العربية";
+                break;
+        }   
      
        
        //Loading de la lagngue de la fenetre principale
@@ -230,7 +229,7 @@ public class Parametres implements Initializable {
                      break; 
                 }
     //Définition de la langue en vigueur avant la fermeture de la fenêtre
-      this.languest_ =  langue;
+      Parametres.languest_ =  langue;
     }
 
     
